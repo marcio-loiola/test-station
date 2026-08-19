@@ -9,67 +9,102 @@
 <body>
     <div class="game-container">
         <header class="game-header">
-            <h1>Teste o Jogo</h1>
+            <h1>Teste o Jogo <span id="levelIndicator">- Nível 1: Planejamento</span></h1>
             <a href="index.html" class="back-btn">SAIR DO JOGO</a>
         </header>
 
-        <div class="story-box" id="storyBox">
-            <p>Você encontrou uma porta selada no sistema! Para abri-la e validar a funcionalidade, você precisa forjar a Chave Exata, unindo as partes de um <strong>Caso de Teste</strong> na ordem correta.</p>
-            <p style="font-size: 0.8rem; margin-top: 10px; color: #aaa;">Arraste as peças da esquerda para os encaixes da fechadura à direita.</p>
-        </div>
-
-        <div class="game-area">
-            <div class="inventory" id="inventory">
-                <h3>Peças Disponíveis</h3>
-                <div class="parts-container">
-                    <!-- Peças arrastáveis -->
-                    <div class="part" draggable="true" data-type="precondicao">
-                        <div class="shape circle"></div>
-                        <span>Pré-condição</span>
-                    </div>
-                    <div class="part" draggable="true" data-type="dados">
-                        <div class="shape rect"></div>
-                        <span>Dados de Entrada</span>
-                    </div>
-                    <div class="part" draggable="true" data-type="passos">
-                        <div class="shape steps"></div>
-                        <span>Passos de Execução</span>
-                    </div>
-                    <div class="part" draggable="true" data-type="resultado">
-                        <div class="shape triangle"></div>
-                        <span>Resultado Esperado</span>
-                    </div>
-                </div>
+        <!-- LEVEL 1: Planejamento (A Porta da Qualidade) -->
+        <div id="level1" class="level-section">
+            <div class="story-box" id="storyBox1">
+                <p><strong>Nível 1: Casos de Teste.</strong> Você encontrou uma funcionalidade selada! Para validá-la, você precisa forjar a Chave Exata, unindo as partes de um <strong>Caso de Teste</strong> na ordem cronológica correta de um planejamento.</p>
+                <p style="font-size: 0.8rem; margin-top: 10px; color: #aaa;">Arraste as peças da esquerda para os encaixes da fechadura à direita.</p>
             </div>
 
-            <div class="door-area">
-                <div class="door-frame">
-                    <div class="door" id="door">
-                        <div class="door-lock">
-                            <!-- Slots para montar a chave -->
-                            <div class="slot" data-slot="precondicao" title="Slot 1: Início"></div>
-                            <div class="slot" data-slot="dados" title="Slot 2: Insumo"></div>
-                            <div class="slot" data-slot="passos" title="Slot 3: Caminho"></div>
-                            <div class="slot" data-slot="resultado" title="Slot 4: Final"></div>
+            <div class="game-area">
+                <div class="inventory" id="inventory">
+                    <h3>Peças Disponíveis</h3>
+                    <div class="parts-container">
+                        <div class="part" draggable="true" data-type="precondicao">
+                            <div class="shape circle"></div><span>Pré-condição</span>
+                        </div>
+                        <div class="part" draggable="true" data-type="dados">
+                            <div class="shape rect"></div><span>Dados</span>
+                        </div>
+                        <div class="part" draggable="true" data-type="passos">
+                            <div class="shape steps"></div><span>Passos</span>
+                        </div>
+                        <div class="part" draggable="true" data-type="resultado">
+                            <div class="shape triangle"></div><span>Resultado</span>
                         </div>
                     </div>
                 </div>
-                <button id="tryOpenBtn" class="action-btn" disabled>FORJAR CHAVE E ABRIR</button>
+
+                <div class="door-area">
+                    <div class="door-frame">
+                        <div class="door" id="door">
+                            <div class="door-lock">
+                                <div class="slot" data-slot="precondicao" title="1"></div>
+                                <div class="slot" data-slot="dados" title="2"></div>
+                                <div class="slot" data-slot="passos" title="3"></div>
+                                <div class="slot" data-slot="resultado" title="4"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="tryOpenBtn" class="action-btn" disabled>FORJAR CHAVE E ABRIR</button>
+                </div>
             </div>
         </div>
 
+        <!-- LEVEL 2: Revisão por Pares -->
+        <div id="level2" class="level-section hidden" style="display: none;">
+            <div class="story-box" id="storyBox2">
+                <p><strong>Nível 2: Revisão por Pares (Auditoria).</strong> Um colega tentou forjar uma chave, mas ela está quebrando no sistema! Analise a chave defeituosa dele e identifique qual peça fundamental está faltando.</p>
+            </div>
+            <div class="game-area" style="flex-direction: column; align-items: center;">
+                <div class="broken-key" style="background: #222; padding: 20px; border-radius: 8px; border: 2px dashed #fca311; display: flex; gap: 10px;">
+                    <div class="part static"><div class="shape circle"></div><span>Pré-condição</span></div>
+                    <div class="part static"><div class="shape rect"></div><span>Dados</span></div>
+                    <div class="part static"><div class="shape steps"></div><span>Passos</span></div>
+                    <div class="slot" style="background:#500; border-color:red;" title="Vazio!"></div>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="action-btn answer-btn" data-answer="passos">Faltam Passos</button>
+                    <button class="action-btn answer-btn correct" data-answer="resultado">Falta Resultado</button>
+                    <button class="action-btn answer-btn" data-answer="dados">Faltam Dados</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 3: Relatório de Defeitos -->
+        <div id="level3" class="level-section hidden" style="display: none;">
+            <div class="story-box" id="storyBox3">
+                <p><strong>Nível 3: O Bug da Hidra.</strong> Você abriu a porta e o sistema lançou um erro crítico! Para capturar o Bug, classifique a SEVERIDADE (impacto) deste defeito que cria um chamado lixo automático no banco sempre que encerramos outro.</p>
+            </div>
+            <div class="game-area" style="flex-direction: column; align-items: center;">
+                <div class="bug-monster" style="font-size: 4rem; animation: pulseGlow 1s infinite;">👾</div>
+                <h3 style="margin-top:10px; color:#ff595e;">Efeito Hidra</h3>
+                <p style="text-align:center; max-width:500px; margin: 15px 0;">O bug duplica registros infinitamente quando os usuários tentam encerrar chamados. Qual é o nível de criticidade?</p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-btn answer-btn3" data-answer="baixa">Baixa (Estético)</button>
+                    <button class="action-btn answer-btn3" data-answer="media">Média (Contornável)</button>
+                    <button class="action-btn answer-btn3 correct3" data-answer="alta">Alta/Crítica (Impede Uso/Lixo no BD)</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 4: Fim -->
+        <div id="level4" class="level-section hidden" style="display: none; text-align: center;">
+            <h2 style="font-size: 2rem; margin-top: 20px;">🏆 JOGO CONCLUÍDO!</h2>
+            <p style="margin: 20px 0; line-height: 1.6;">Você dominou os Casos de Teste, fez a Revisão por Pares com sucesso e documentou Bugs com maestria. Você é oficialmente um QA certificado na Estação de Testes!</p>
+            <button class="action-btn" onclick="window.location.href='index.html'">Voltar ao Sistema de Chamados</button>
+        </div>
+
+        <!-- Modals -->
         <div id="modalExplanation" class="modal hidden">
             <div class="modal-content">
-                <h2>Funcionalidade Desbloqueada! 🔓</h2>
-                <p>Excelente! Assim como no jogo, um <strong>Caso de Teste</strong> funciona como uma chave exata no sistema real.</p>
-                <ul>
-                    <li><strong>Pré-condição:</strong> A base de onde você parte (ex: Usuário estar logado no sistema).</li>
-                    <li><strong>Dados de Entrada:</strong> O material que preenche o teste (ex: E-mail e senha).</li>
-                    <li><strong>Passos de Execução:</strong> O caminho que você percorre (ex: Clicar no botão 'Entrar').</li>
-                    <li><strong>Resultado Esperado:</strong> O objetivo final do sistema, que destranca a funcionalidade (ex: Redirecionar para o painel).</li>
-                </ul>
-                <p>Sem todas as informações bem estruturadas, seu relatório não consegue abrir o caminho para identificar defeitos reais. Continue testando!</p>
-                <button class="action-btn" onclick="window.location.href='index.html'">Voltar ao Sistema</button>
+                <h2 id="modalTitle">Sucesso! 🔓</h2>
+                <p id="modalDesc">Você forjou a chave corretamente.</p>
+                <button id="nextLevelBtn" class="action-btn" style="margin-top:20px;">Avançar Nível</button>
             </div>
         </div>
     </div>

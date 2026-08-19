@@ -91,10 +91,59 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isCorrect) {
             door.classList.add('open');
             setTimeout(() => {
+                document.getElementById('modalTitle').innerHTML = 'Porta Desbloqueada! 🔓';
+                document.getElementById('modalDesc').innerHTML = 'Excelente! Assim como no jogo, um <strong>Caso de Teste</strong> funciona como uma chave exata no sistema real.<br><br>Sem todas as informações estruturadas (Pré-condição, Dados, Passos, Resultado), seu relatório não consegue abrir o caminho para identificar defeitos reais.';
                 modal.classList.remove('hidden');
+                document.getElementById('nextLevelBtn').onclick = () => {
+                    modal.classList.add('hidden');
+                    document.getElementById('level1').style.display = 'none';
+                    document.getElementById('level2').style.display = 'block';
+                    document.getElementById('levelIndicator').textContent = '- Nível 2: Revisão';
+                };
             }, 1200);
         } else {
             alert("A chave falhou! A estrutura do Caso de Teste está na ordem errada.\n\nDica: Pense na ordem lógica:\n1. Onde você está (Pré-condição)\n2. O que você usa (Dados)\n3. O que você faz (Passos)\n4. O que você ganha (Resultado)");
         }
+    });
+
+    // Level 2 Logic
+    const level2Btns = document.querySelectorAll('.answer-btn');
+    level2Btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (e.target.classList.contains('correct')) {
+                document.getElementById('modalTitle').innerHTML = 'Revisão Aprovada! ✅';
+                document.getElementById('modalDesc').innerHTML = 'Exatamente! A chave do seu colega estava sem o <strong>Resultado Esperado</strong>. Sem saber o que esperar, é impossível validar se o sistema funcionou direito!';
+                modal.classList.remove('hidden');
+                document.getElementById('nextLevelBtn').onclick = () => {
+                    modal.classList.add('hidden');
+                    document.getElementById('level2').style.display = 'none';
+                    document.getElementById('level3').style.display = 'block';
+                    document.getElementById('levelIndicator').textContent = '- Nível 3: Defeitos';
+                };
+            } else {
+                alert('Incorreto! Olhe bem para a chave quebrada: tem Círculo (Pré-condição), Retângulo (Dados) e Ziguezague (Passos)... Falta a última peça!');
+            }
+        });
+    });
+
+    // Level 3 Logic
+    const level3Btns = document.querySelectorAll('.answer-btn3');
+    level3Btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (e.target.classList.contains('correct3')) {
+                document.getElementById('modalTitle').innerHTML = 'Bug Capturado! 👾';
+                document.getElementById('modalDesc').innerHTML = 'Perfeito! O Bug da Hidra é de severidade <strong>ALTA</strong> porque ele gera dados incorretos e corrompe o fluxo de negócios (impede que um chamado morra de verdade).<br><br>Você sabe documentar falhas!';
+                modal.classList.remove('hidden');
+                document.getElementById('nextLevelBtn').textContent = 'Finalizar Treinamento';
+                document.getElementById('nextLevelBtn').onclick = () => {
+                    modal.classList.add('hidden');
+                    document.getElementById('level3').style.display = 'none';
+                    document.getElementById('level4').style.display = 'block';
+                    document.getElementById('levelIndicator').textContent = '- Certificado QA';
+                };
+            } else {
+                alert('Tente novamente! Pense bem: se um sistema não permite que você encerre algo e fica criando lixo no banco de dados automaticamente... isso é só um problema visual?');
+            }
+        });
     });
 });
