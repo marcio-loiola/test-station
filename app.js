@@ -234,19 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         saveChamados(chamados);
                         applyFilters();
                     }
-
-                    // DEFEITO 7: EDIÇÃO DE CHAMADO - Mensagem incorreta
-                    let alertBox = document.getElementById('editAlert');
-                    if (!alertBox) {
-                        alertBox = document.createElement('div');
-                        alertBox.id = 'editAlert';
-                        alertBox.className = 'alert success';
-                        const container = document.querySelector('.card');
-                        container.insertBefore(alertBox, container.firstChild);
-                    }
-                    alertBox.textContent = 'Usuário excluído com sucesso!';
-                    alertBox.style.display = 'block';
-                    setTimeout(() => { alertBox.style.display = 'none'; }, 3000);
                 }
             }
         });

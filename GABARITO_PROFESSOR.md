@@ -94,17 +94,3 @@ Este documento descreve os 7 defeitos intencionalmente introduzidos na aplicaç�
   4. A tabela ficará vazia.
 - **Severidade Sugerida:** Média (Quebra o recurso de filtragem de uma funcionalidade principal).
 - **Prioridade Sugerida:** Média.
-
----
-
-## Defeito 7: Mensagem Incorreta na Edição de Status
-- **ID Interno:** DEF-007
-- **Funcionalidade Afetada:** Consulta de Chamados (Alteração Rápida de Status)
-- **Comportamento Esperado:** Após o usuário trocar o status de um chamado pelo `<select>` na tabela, deveria aparecer uma mensagem como "Status atualizado com sucesso!".
-- **Comportamento Defeituoso:** Após alterar o status, a mensagem exibida na tela é "Usuário excluído com sucesso!", fazendo referência a uma operação totalmente desconexa.
-- **Passos para Reprodução:**
-  1. Acessar "Consultar Chamados".
-  2. Na coluna status, alterar a opção de qualquer chamado (ex: de "Aberto" para "Encerrado").
-  3. Observar a mensagem de sucesso que aparece no topo da tela.
-- **Severidade Sugerida:** Baixa (Não impede a operação nem corrompe dados, mas confunde o usuário).
-- **Prioridade Sugerida:** Baixa.
