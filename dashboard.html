@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Chamados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Sistema de Chamados SENAI</h1>
+        <nav>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="novo.html">Abrir Chamado</a>
+            <a href="consulta.html">Consultar Chamados</a>
+            <a href="usuarios.html">Usuários</a>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Dashboard</h2>
+        
+        <div class="dashboard-stats" id="dashboardStats">
+            <div class="stat-card">
+                <h3>Chamados Abertos</h3>
+                <div class="number" id="countAbertos">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Em Andamento</h3>
+                <div class="number" id="countAndamento">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Encerrados</h3>
+                <div class="number" id="countEncerrados">0</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Bem-vindo ao sistema de chamados</h3>
+            <p>Utilize o menu acima para abrir novos chamados ou consultar os chamados existentes.</p>
+        </div>
+
+        <div class="pedagogical-notice">
+            <span>Estação de Testes:</span> Sistema disponibilizado para avaliação de qualidade.
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

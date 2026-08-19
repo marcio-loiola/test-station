@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Chamados - Sistema de Chamados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Sistema de Chamados SENAI</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="novo.html">Abrir Chamado</a>
+            <a href="consulta.html" class="active">Consultar Chamados</a>
+            <a href="usuarios.html">Usuários</a>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Consultar Chamados</h2>
+            
+            <div class="filter-bar">
+                <input type="text" id="busca" placeholder="Buscar por título...">
+                
+                <select id="filtroStatus">
+                    <option value="">Todos os status</option>
+                    <option value="Aberto">Aberto</option>
+                    <option value="Em andamento">Em andamento</option>
+                    <option value="Encerrado">Encerrado</option>
+                </select>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Categoria</th>
+                            <th>Prioridade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Conteúdo gerado via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="pedagogical-notice">
+            <span>Estação de Testes:</span> Sistema disponibilizado para avaliação de qualidade.
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

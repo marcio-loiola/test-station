@@ -1,0 +1,3 @@
+[build]
+  publish = "."
+  command = "" # No build command since it's vanilla HTML/JS/CSS

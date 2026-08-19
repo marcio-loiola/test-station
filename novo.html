@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abrir Chamado - Sistema de Chamados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Sistema de Chamados SENAI</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="novo.html" class="active">Abrir Chamado</a>
+            <a href="consulta.html">Consultar Chamados</a>
+            <a href="usuarios.html">Usuários</a>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Abrir Novo Chamado</h2>
+            
+            <div id="formSuccess" class="alert success"></div>
+            
+            <form id="formNovo">
+                <div class="form-group">
+                    <label for="titulo">Título do Problema</label>
+                    <input type="text" id="titulo" placeholder="Ex: Internet não funciona">
+                    <!-- Bug pedagógico: Campo não possui atributo 'required' -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <select id="categoria">
+                        <option value="Hardware">Hardware (Equipamentos)</option>
+                        <option value="Software">Software (Sistemas)</option>
+                        <option value="Rede">Rede e Internet</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="prioridade">Prioridade</label>
+                    <select id="prioridade">
+                        <option value="Baixa">Baixa</option>
+                        <option value="Média" selected>Média</option>
+                        <option value="Alta">Alta</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao">Descrição Detalhada</label>
+                    <textarea id="descricao" rows="5" placeholder="Descreva o problema com o máximo de detalhes..."></textarea>
+                    <!-- Bug pedagógico: Campo não possui atributo 'required' -->
+                </div>
+                
+                <button type="submit" class="btn">Abrir Chamado</button>
+            </form>
+        </div>
+
+        <div class="pedagogical-notice">
+            <span>Estação de Testes:</span> Sistema disponibilizado para avaliação de qualidade.
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

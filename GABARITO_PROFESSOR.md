@@ -1,0 +1,110 @@
+# Gabarito do Professor - Estação de Testes (Defeitos Intencionais)
+
+Este documento descreve os 7 defeitos intencionalmente introduzidos na aplicação para fins didáticos de prática de testes funcionais.
+
+---
+
+## Defeito 1: Mensagem Genérica de Senha Inválida no Login
+- **ID Interno:** DEF-001
+- **Funcionalidade Afetada:** Autenticação de Usuários (Login)
+- **Comportamento Esperado:** Ao tentar acessar o sistema com um e-mail válido mas senha incorreta, o sistema deve apresentar uma mensagem clara como "Usuário ou senha inválidos".
+- **Comportamento Defeituoso:** O sistema exibe uma mensagem genérica de erro no servidor: "Erro ao processar solicitação".
+- **Passos para Reprodução:** 
+  1. Acessar a tela de Login (`index.html`).
+  2. Informar um e-mail válido (ex: `usuario.teste@senai.br`).
+  3. Informar uma senha incorreta (ex: `senhaerrada123`).
+  4. Clicar em "Entrar".
+- **Severidade Sugerida:** Média (Dificulta a compreensão do usuário, mas não bloqueia a funcionalidade).
+- **Prioridade Sugerida:** Baixa.
+
+---
+
+## Defeito 2: E-mail Duplicado no Cadastro de Usuário
+- **ID Interno:** DEF-002
+- **Funcionalidade Afetada:** Cadastro de Usuários
+- **Comportamento Esperado:** O sistema deve impedir o cadastro de um novo usuário caso o e-mail informado já esteja em uso, independentemente de letras maiúsculas ou minúsculas (case-insensitive).
+- **Comportamento Defeituoso:** O sistema permite o cadastro do mesmo e-mail caso haja diferença entre letras maiúsculas e minúsculas (a busca é case-sensitive). Ex: `aluno` e `Aluno` são considerados diferentes.
+- **Passos para Reprodução:**
+  1. Autenticar no sistema e acessar a aba "Usuários".
+  2. Cadastrar um usuário com e-mail `aluno@senai.br` e salvar.
+  3. Tentar cadastrar um novo usuário com e-mail `Aluno@senai.br` (com 'A' maiúsculo).
+  4. Observar que o sistema aceita o cadastro e cria a duplicata na tabela.
+- **Severidade Sugerida:** Alta (Permite inconsistência de dados de autenticação e contas duplicadas).
+- **Prioridade Sugerida:** Alta.
+
+---
+
+## Defeito 3: Validação Inexistente do Tamanho da Senha
+- **ID Interno:** DEF-003
+- **Funcionalidade Afetada:** Cadastro de Usuários
+- **Comportamento Esperado:** O campo de senha deve exigir um tamanho mínimo de caracteres (ex: 6 ou 8) por questões de segurança.
+- **Comportamento Defeituoso:** O campo aceita qualquer string não vazia, permitindo senhas de apenas 1 ou 2 caracteres.
+- **Passos para Reprodução:**
+  1. Acessar a aba "Usuários".
+  2. Preencher os dados de um novo usuário.
+  3. No campo "Senha", digitar apenas `1`.
+  4. Clicar em "Cadastrar Usuário".
+  5. O usuário é cadastrado com sucesso.
+- **Severidade Sugerida:** Alta (Vulnerabilidade de segurança).
+- **Prioridade Sugerida:** Alta.
+
+---
+
+## Defeito 4: Alteração Indevida de Prioridade em Chamados de Rede
+- **ID Interno:** DEF-004
+- **Funcionalidade Afetada:** Abertura de Novo Chamado
+- **Comportamento Esperado:** A prioridade salva no sistema deve ser exatamente a selecionada pelo usuário na interface.
+- **Comportamento Defeituoso:** Caso a categoria selecionada seja "Rede", a prioridade é forçada para "Baixa" no momento da gravação, ignorando a seleção do usuário.
+- **Passos para Reprodução:**
+  1. Acessar "Abrir Chamado".
+  2. Preencher título e descrição.
+  3. Selecionar Categoria "Rede".
+  4. Selecionar Prioridade "Alta".
+  5. Salvar o chamado e ir para "Consultar Chamados".
+  6. Observar que na listagem a prioridade do chamado aparece como "Baixa".
+- **Severidade Sugerida:** Média (O dado é salvo de forma inconsistente, prejudicando a triagem correta dos problemas).
+- **Prioridade Sugerida:** Média.
+
+---
+
+## Defeito 5: Busca de Chamados Sensível a Maiúsculas e Minúsculas
+- **ID Interno:** DEF-005
+- **Funcionalidade Afetada:** Consulta de Chamados (Filtro por texto)
+- **Comportamento Esperado:** A busca por texto no título deve encontrar os chamados independentemente de letras maiúsculas ou minúsculas (case-insensitive).
+- **Comportamento Defeituoso:** A busca é sensível à caixa (case-sensitive). "Impressora" e "impressora" retornam resultados diferentes.
+- **Passos para Reprodução:**
+  1. Acessar "Consultar Chamados".
+  2. Identificar um chamado (ex: "Monitor não liga").
+  3. No campo de busca, digitar "monitor" (em letras minúsculas).
+  4. O chamado desaparece da lista, não sendo encontrado.
+- **Severidade Sugerida:** Baixa (O recurso de busca funciona parcialmente e frustra o usuário, mas não corrompe dados).
+- **Prioridade Sugerida:** Baixa/Média.
+
+---
+
+## Defeito 6: Filtro de Status "Em andamento" Falho
+- **ID Interno:** DEF-006
+- **Funcionalidade Afetada:** Consulta de Chamados (Filtro por status)
+- **Comportamento Esperado:** Ao selecionar o filtro de status "Em andamento", a tabela deve exibir apenas os chamados com esse status.
+- **Comportamento Defeituoso:** Ao selecionar "Em andamento", a lista fica vazia, pois internamente o código tenta buscar chamados com status "andamento" em vez de "Em andamento".
+- **Passos para Reprodução:**
+  1. Acessar "Consultar Chamados".
+  2. Certificar-se de que existem chamados com o status "Em andamento" (se não houver, crie um ou mude o status de um existente).
+  3. No seletor de "Filtrar por Status", escolher "Em andamento".
+  4. A tabela ficará vazia.
+- **Severidade Sugerida:** Média (Quebra o recurso de filtragem de uma funcionalidade principal).
+- **Prioridade Sugerida:** Média.
+
+---
+
+## Defeito 7: Mensagem Incorreta na Edição de Status
+- **ID Interno:** DEF-007
+- **Funcionalidade Afetada:** Consulta de Chamados (Alteração Rápida de Status)
+- **Comportamento Esperado:** Após o usuário trocar o status de um chamado pelo `<select>` na tabela, deveria aparecer uma mensagem como "Status atualizado com sucesso!".
+- **Comportamento Defeituoso:** Após alterar o status, a mensagem exibida na tela é "Usuário excluído com sucesso!", fazendo referência a uma operação totalmente desconexa.
+- **Passos para Reprodução:**
+  1. Acessar "Consultar Chamados".
+  2. Na coluna status, alterar a opção de qualquer chamado (ex: de "Aberto" para "Encerrado").
+  3. Observar a mensagem de sucesso que aparece no topo da tela.
+- **Severidade Sugerida:** Baixa (Não impede a operação nem corrompe dados, mas confunde o usuário).
+- **Prioridade Sugerida:** Baixa.

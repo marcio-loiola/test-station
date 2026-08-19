@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários - Sistema de Chamados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Sistema de Chamados SENAI</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="novo.html">Abrir Chamado</a>
+            <a href="consulta.html">Consultar Chamados</a>
+            <a href="usuarios.html" class="active">Usuários</a>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Cadastro de Usuário</h2>
+        
+        <div class="card">
+            <div id="formError" class="alert error"></div>
+            <div id="formSuccess" class="alert success"></div>
+            
+            <form id="formUsuario">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" required placeholder="Ex: Carlos QA">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" required placeholder="Ex: carlos.qa@senai.br">
+                </div>
+                <div class="form-group">
+                    <label for="perfil">Perfil</label>
+                    <select id="perfil" required>
+                        <option value="">Selecione...</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Técnico">Técnico</option>
+                        <option value="Estudante">Estudante</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Digite uma senha">
+                </div>
+                
+                <button type="submit" class="btn">Cadastrar Usuário</button>
+            </form>
+        </div>
+
+        <h2>Usuários Cadastrados</h2>
+        <div class="card table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Perfil</th>
+                    </tr>
+                </thead>
+                <tbody id="tableUsuariosBody">
+                    <!-- Preenchido via JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pedagogical-notice">
+            <span>Estação de Testes:</span> Sistema disponibilizado para avaliação de qualidade.
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
