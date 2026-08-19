@@ -4,18 +4,18 @@ Este documento descreve os 7 defeitos intencionalmente introduzidos na aplicaç�
 
 ---
 
-## Defeito 1: Erro Técnico Exposto no Login
+## Defeito 1: Efeito Hidra ao Encerrar Chamados
 - **ID Interno:** DEF-001
-- **Funcionalidade Afetada:** Autenticação de Usuários (Login)
-- **Comportamento Esperado:** Ao tentar acessar o sistema com um e-mail válido mas senha incorreta, o sistema deve apresentar uma mensagem clara e amigável como "Usuário ou senha inválidos".
-- **Comportamento Defeituoso:** O sistema exibe um erro técnico que deveria estar apenas no console, vazando informações da estrutura do código e com estilo quebrado na tela: "Uncaught TypeError: Cannot read property "token" of undefined at login()".
+- **Funcionalidade Afetada:** Consulta e Edição de Chamados
+- **Comportamento Esperado:** Ao alterar o status de um chamado para "Encerrado", o sistema deve simplesmente salvar o novo status sem criar novos registros.
+- **Comportamento Defeituoso:** Ao marcar um chamado como "Encerrado", o sistema sofre de um "Efeito Hidra": o chamado é encerrado, mas o sistema automaticamente abre um novo chamado idêntico com status "Aberto", prefixado com "Reabertura automática: ".
 - **Passos para Reprodução:** 
-  1. Acessar a tela de Login (`index.html`).
-  2. Informar um e-mail válido (ex: `usuario.teste@senai.br`).
-  3. Informar uma senha incorreta (ex: `senhaerrada123`).
-  4. Clicar em "Entrar".
-- **Severidade Sugerida:** Média (Dificulta a compreensão do usuário, mas não bloqueia a funcionalidade).
-- **Prioridade Sugerida:** Baixa.
+  1. Acessar a tela "Consultar Chamados".
+  2. Identificar qualquer chamado na lista.
+  3. Mudar o status na coluna correspondente para "Encerrado".
+  4. Observar que, imediatamente, um novo chamado surge na tabela com o status "Aberto".
+- **Severidade Sugerida:** Alta (Gera lixo no banco de dados e impede a finalização real de chamados).
+- **Prioridade Sugerida:** Alta.
 
 ---
 

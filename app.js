@@ -70,12 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (foundUser) {
                 if (foundUser.senha === pass) {
                     localStorage.setItem('auth_token', 'token_valido');
+                    window.location.href = 'dashboard.html';
                 } else {
-                    // DEFEITO 1: LOGIN — Senha Inválida (Exibe erro técnico no console e trava na tela sem dar mensagem clara)
-                    errorMsg.textContent = 'Uncaught TypeError: Cannot read property "token" of undefined at login()';
+                    errorMsg.textContent = 'Usuário ou senha inválidos.';
                     errorMsg.style.display = 'block';
-                    errorMsg.style.backgroundColor = 'black';
-                    errorMsg.style.color = 'red';
                 }
             } else {
                 errorMsg.textContent = 'Usuário ou senha inválidos.';
@@ -221,6 +219,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     chamados[idx].status = newStatus;
                     saveChamados(chamados);
                     applyFilters();
+
+                    // NOVO DEFEITO 1: EFEITO HIDRA (Ao encerrar, um novo é aberto automaticamente)
+                    if (newStatus === 'Encerrado') {
+                        const newId = chamados.length > 0 ? Math.max(...chamados.map(c => c.id)) + 1 : 1;
+                        chamados.push({
+                            id: newId,
+                            title: 'Reabertura automática: ' + chamados[idx].title,
+                            description: 'O sistema gerou este chamado sozinho por conta do Efeito Hidra.',
+                            category: chamados[idx].category,
+                            priority: chamados[idx].priority,
+                            status: 'Aberto'
+                        });
+                        saveChamados(chamados);
+                        applyFilters();
+                    }
 
                     // DEFEITO 7: EDIÇÃO DE CHAMADO - Mensagem incorreta
                     let alertBox = document.getElementById('editAlert');
