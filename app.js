@@ -70,11 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (foundUser) {
                 if (foundUser.senha === pass) {
                     localStorage.setItem('auth_token', 'token_valido');
-                    window.location.href = 'dashboard.html';
                 } else {
-                    // DEFEITO 1: LOGIN — Senha Inválida (Mensagem genérica)
-                    errorMsg.textContent = 'Erro ao processar solicitação';
+                    // DEFEITO 1: LOGIN — Senha Inválida (Exibe erro técnico no console e trava na tela sem dar mensagem clara)
+                    errorMsg.textContent = 'Uncaught TypeError: Cannot read property "token" of undefined at login()';
                     errorMsg.style.display = 'block';
+                    errorMsg.style.backgroundColor = 'black';
+                    errorMsg.style.color = 'red';
                 }
             } else {
                 errorMsg.textContent = 'Usuário ou senha inválidos.';

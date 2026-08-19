@@ -4,11 +4,11 @@ Este documento descreve os 7 defeitos intencionalmente introduzidos na aplicaç�
 
 ---
 
-## Defeito 1: Mensagem Genérica de Senha Inválida no Login
+## Defeito 1: Erro Técnico Exposto no Login
 - **ID Interno:** DEF-001
 - **Funcionalidade Afetada:** Autenticação de Usuários (Login)
-- **Comportamento Esperado:** Ao tentar acessar o sistema com um e-mail válido mas senha incorreta, o sistema deve apresentar uma mensagem clara como "Usuário ou senha inválidos".
-- **Comportamento Defeituoso:** O sistema exibe uma mensagem genérica de erro no servidor: "Erro ao processar solicitação".
+- **Comportamento Esperado:** Ao tentar acessar o sistema com um e-mail válido mas senha incorreta, o sistema deve apresentar uma mensagem clara e amigável como "Usuário ou senha inválidos".
+- **Comportamento Defeituoso:** O sistema exibe um erro técnico que deveria estar apenas no console, vazando informações da estrutura do código e com estilo quebrado na tela: "Uncaught TypeError: Cannot read property "token" of undefined at login()".
 - **Passos para Reprodução:** 
   1. Acessar a tela de Login (`index.html`).
   2. Informar um e-mail válido (ex: `usuario.teste@senai.br`).

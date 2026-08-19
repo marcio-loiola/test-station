@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon QA - Sistema de Chamados</title>
+    <link rel="stylesheet" href="minigame.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>A Porta da Qualidade</h1>
+            <a href="index.html" class="back-btn">SAIR DA DUNGEON</a>
+        </header>
+
+        <div class="story-box" id="storyBox">
+            <p>Você encontrou uma porta selada no sistema! Para abri-la e validar a funcionalidade, você precisa forjar a Chave Exata, unindo as partes de um <strong>Caso de Teste</strong> na ordem correta.</p>
+            <p style="font-size: 0.8rem; margin-top: 10px; color: #aaa;">Arraste as peças da esquerda para os encaixes da fechadura à direita.</p>
+        </div>
+
+        <div class="game-area">
+            <div class="inventory" id="inventory">
+                <h3>Peças Disponíveis</h3>
+                <div class="parts-container">
+                    <!-- Peças arrastáveis -->
+                    <div class="part" draggable="true" data-type="precondicao">
+                        <div class="shape circle"></div>
+                        <span>Pré-condição</span>
+                    </div>
+                    <div class="part" draggable="true" data-type="dados">
+                        <div class="shape rect"></div>
+                        <span>Dados de Entrada</span>
+                    </div>
+                    <div class="part" draggable="true" data-type="passos">
+                        <div class="shape steps"></div>
+                        <span>Passos de Execução</span>
+                    </div>
+                    <div class="part" draggable="true" data-type="resultado">
+                        <div class="shape triangle"></div>
+                        <span>Resultado Esperado</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="door-area">
+                <div class="door-frame">
+                    <div class="door" id="door">
+                        <div class="door-lock">
+                            <!-- Slots para montar a chave -->
+                            <div class="slot" data-slot="precondicao" title="Slot 1: Início"></div>
+                            <div class="slot" data-slot="dados" title="Slot 2: Insumo"></div>
+                            <div class="slot" data-slot="passos" title="Slot 3: Caminho"></div>
+                            <div class="slot" data-slot="resultado" title="Slot 4: Final"></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="tryOpenBtn" class="action-btn" disabled>FORJAR CHAVE E ABRIR</button>
+            </div>
+        </div>
+
+        <div id="modalExplanation" class="modal hidden">
+            <div class="modal-content">
+                <h2>Porta Desbloqueada! 🔓</h2>
+                <p>Excelente! Assim como na dungeon, um <strong>Caso de Teste</strong> funciona como uma chave exata no sistema real.</p>
+                <ul>
+                    <li><strong>Pré-condição:</strong> A base de onde você parte (ex: Usuário estar logado no sistema).</li>
+                    <li><strong>Dados de Entrada:</strong> O material que preenche o teste (ex: E-mail e senha).</li>
+                    <li><strong>Passos de Execução:</strong> O caminho que você percorre (ex: Clicar no botão 'Entrar').</li>
+                    <li><strong>Resultado Esperado:</strong> O objetivo final do sistema, que destranca a funcionalidade (ex: Redirecionar para o painel).</li>
+                </ul>
+                <p>Sem todas as informações bem estruturadas, seu relatório não consegue abrir o caminho para identificar defeitos reais. Continue testando!</p>
+                <button class="action-btn" onclick="window.location.href='index.html'">Voltar ao Sistema</button>
+            </div>
+        </div>
+    </div>
+    <script src="minigame.js"></script>
+</body>
+</html>
