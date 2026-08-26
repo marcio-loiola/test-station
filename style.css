@@ -297,10 +297,37 @@ tr:hover {
     margin-top: 4rem;
     padding: 1rem;
     font-size: 0.85rem;
-    color: #888;
+    color: #666;
     border-top: 1px solid #eee;
+    background: #fafafa;
+    border-radius: var(--border-radius);
 }
 
 .pedagogical-notice span {
     font-weight: bold;
+    color: var(--primary-color);
+}
+
+.pedagogical-notice strong {
+    color: #222;
+    background: #e9ecef;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+}
+
+.btn-version-toggle, .btn-version-reset {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    font-family: inherit;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.btn-version-toggle:hover, .btn-version-reset:hover {
+    color: #003d82;
 }

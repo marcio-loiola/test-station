@@ -41,10 +41,12 @@ Para iniciar sua jornada de testes e acessar o painel principal, utilize um dos 
 
 ---
 
-## 4. O seu Desafio
+## 4. O seu Desafio (Ciclo Completo de QA)
 1. **Escreva:** Elabore casos de teste cobrindo caminhos felizes (dados válidos) e caminhos de exceção (dados inválidos ou limites do sistema).
-2. **Execute:** Siga o passo-a-passo que você mesmo(a) escreveu.
-3. **Compare:** O Resultado Obtido foi igual ao Resultado Esperado?
-4. **Reporte:** Se o sistema apresentar um comportamento inesperado (um *Bug*!), colete a evidência e preencha um "Relatório de Defeito".
+2. **Execute:** Siga o passo-a-passo planejado rigorosamente.
+3. **Compare:** O **Resultado Obtido** foi igual ao **Resultado Esperado**?
+4. **Reporte:** Se encontrar uma divergência (um *Bug*!), capture a evidência e documente o "Relatório de Defeito" com severidade e prioridade.
+5. **Reteste:** Quando uma nova versão for liberada pela equipe de desenvolvimento, reteste o defeito para confirmar a correção.
+6. **Teste de Regressão:** Execute outros casos de teste em funcionalidades conectadas para garantir que as alterações não introduziram novos problemas colaterais!
 
-**Boa caçada aos bugs!**
+**Boa caçada aos bugs e excelente prática de testes!**
