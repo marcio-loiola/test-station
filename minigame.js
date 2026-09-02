@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const parts = document.querySelectorAll('.part');
-    const slots = document.querySelectorAll('.slot');
+    const parts = document.querySelectorAll('.part[draggable="true"]');
+    const slots = document.querySelectorAll('.door-lock .slot');
     const tryBtn = document.getElementById('tryOpenBtn');
     const door = document.getElementById('door');
     const modal = document.getElementById('modalExplanation');
