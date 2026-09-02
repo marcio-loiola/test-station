@@ -1,4 +1,4 @@
-﻿# Gabarito do Professor — Estação de Testes SENAI (Aula Final de Testes de Sistemas)
+# Gabarito do Professor — Estação de Testes SENAI (Aula Final de Testes de Sistemas)
 
 > **DOCUMENTO CONFIDENCIAL DO CORPO DOCENTE — NÃO COMPARTILHAR COM OS ALUNOS**
 > Este guia é o material de referência definitivo para a aula prática de fechamento da Unidade Curricular de Testes de Sistemas. Contém o mapeamento completo de requisitos, matriz de rastreabilidade, mapa pedagógico, fichas técnicas de defeitos, técnicas de caixa preta (Partição de Equivalência e Análise de Valor Limite), níveis de teste, testes automatizados com Vitest, roteiro de demonstração do professor, casos de reteste e testes de regressão.
@@ -344,6 +344,23 @@ npm run test:watch
 |---|---|---|---|---|
 | **CT-REG-001** | Edição de Status | Alterar chamado de `Aberto` para `Em andamento` | Preservar a prioridade original (`Alta` ou `Baixa`) | **Prioridade é sobrescrita para `Média` (DEF-REG-001)** |
 | **CT-REG-002** | Filtro Combinado | Filtrar por status `Aberto` e buscar termo `Sistema` | Não exibir resultados (pois "Sistema" é `Em andamento`) | **Chamado "Sistema lento" aparece na tabela violando o filtro (DEF-REG-002)** |
+
+### 9.5. Casos de Teste Unitário Automatizado (Vitest - Caixa Preta)
+Estes casos implementam as regras de Análise de Valor Limite e Partição de Equivalência e devem ser automatizados no arquivo `validadores.test.js`.
+
+| ID Caso | Módulo / Função | Técnica | Dados de Entrada | Resultado Esperado |
+|---|---|---|---|---|
+| **CT-UNIT-001** | `validarSenha` | Classe Inválida | `''` (vazio) ou `null` | Retorna `false` |
+| **CT-UNIT-002** | `validarSenha` | BVA - Limite Inferior | `'12345'` (5 chars) | Retorna `false` |
+| **CT-UNIT-003** | `validarSenha` | BVA - No Limite | `'123456'` (6 chars) | Retorna `true` |
+| **CT-UNIT-004** | `validarSenha` | BVA - Limite Superior | `'1234567'` (7 chars) | Retorna `true` |
+| **CT-UNIT-005** | `validarSenha` | Classe Válida | `'SenhaForte123'` | Retorna `true` |
+| **CT-UNIT-006** | `validarTitulo` | Classe Inválida | `'   '` (espaços vazios) | Retorna `false` |
+| **CT-UNIT-007** | `validarTitulo` | BVA - Limite Inferior | `'Rede'` (4 chars) | Retorna `false` |
+| **CT-UNIT-008** | `validarTitulo` | BVA - No Limite | `'Mouse'` (5 chars) | Retorna `true` |
+| **CT-UNIT-009** | `validarTitulo` | BVA - Limite Superior | `'Teclas'` (6 chars) | Retorna `true` |
+| **CT-UNIT-010** | `validarEmail` | Case-Insensitive (Duplicado) | `'Aluno@senai.br'` (existindo 'aluno...') | Retorna `true` |
+| **CT-UNIT-011** | `validarEmail` | Email Único (Disponível) | `'novo.aluno@senai.br'` | Retorna `false` |
 
 ---
 
