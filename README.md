@@ -1,48 +1,97 @@
-# Sistema de Chamados SENAI — Estação de Testes
+﻿# Sistema de Chamados SENAI — Estação Didática de Testes de Sistemas
 
-Um sistema web de chamados de TI criado exclusivamente para **fins pedagógicos** em aulas de Testes de Sistemas do SENAI.
+Sistema web de controle de chamados de TI desenvolvido exclusivamente para **aulas práticas de Testes de Sistemas do SENAI**, atuando como um laboratório completo para aplicação de técnicas de teste funcional, caixa preta, reteste e regressão.
 
-Este projeto contém **defeitos intencionais controlados** organizados em duas versões pedagógicas (**Versão A** e **Versão B**), permitindo que os alunos pratiquem todo o ciclo de qualidade: elaboração de casos de teste, execução manual, registro de evidências, documentação de defeitos, reteste de correções e testes de regressão.
+---
 
-## 🚀 Como Executar
+## 🎯 Objetivos de Aprendizagem
 
-O sistema foi construído puramente com **HTML, CSS e JavaScript Vanilla (ES6+)**. Ele não depende de bibliotecas externas, compiladores ou backend (todos os dados persistem localmente na memória do navegador via `localStorage`).
+Os estudantes vivenciam na prática o ciclo completo de Qualidade de Software (QA):
+$$\text{Requisito} \longrightarrow \text{Selecionar Procedimento} \longrightarrow \text{Executar Teste} \longrightarrow \text{Comparar (Esperado vs. Obtido)} \longrightarrow \text{Evidenciar e Reportar Bug} \longrightarrow \text{Retestar na Versão B} \longrightarrow \text{Testar Regressão}$$
 
-### Opção 1: Direto no Navegador (Sem instalação)
+---
+
+## 📋 Requisitos Funcionais Mapeados
+
+- **`RF-001` — Autenticação (Login):** Validação de credenciais de acesso para usuários cadastrados.
+- **`RF-002` — Cadastro de Usuários:** Cadastro de novos usuários com e-mail único e validação de senha (mínimo de 6 caracteres).
+- **`RF-003` — Abertura de Chamados:** Criação de chamados com título (mínimo de 5 caracteres), categoria, prioridade e descrição.
+- **`RF-004` — Consulta e Edição de Chamados:** Listagem de chamados, busca por título, filtro por status e atualização de status.
+- **`RF-005` — Dashboard:** Métricas e contadores de chamados Abertos, Em Andamento e Encerrados.
+
+---
+
+## 🚀 Como Executar a Aplicação
+
+A aplicação foi construída com **HTML5, CSS3 e JavaScript Vanilla (ES6+)**, armazenando todos os dados no `localStorage` do navegador.
+
+### Opção 1: Direto no Navegador (Sem Instalação)
 1. Dê um duplo clique no arquivo `index.html`.
-2. O sistema abrirá no seu navegador padrão e já estará pronto para uso.
+2. O sistema abrirá diretamente no seu navegador padrão e estará 100% funcional.
 
-### Opção 2: Servidor Local (Opcional)
-Se preferir rodar em um servidor web local:
+### Opção 2: Servidor Local Simples (Opcional)
 ```bash
 # Com Python 3:
 python -m http.server 8000
 ```
 Acesse no navegador: [http://localhost:8000](http://localhost:8000)
 
-## 🔑 Credenciais para Teste (Caminho Feliz)
+---
 
-Para autenticar no sistema:
+## 🧪 Testes Automatizados com Vitest (Nível Unitário)
+
+Para demonstrar testes unitários automatizados e técnicas de caixa preta em código:
+
+```bash
+# Instalar dependências de teste (apenas uma vez, caso deseje rodar Vitest)
+npm install
+
+# Executar a suíte de testes unitários
+npm test
+
+# Executar em modo interativo
+npm run test:watch
+```
+
+Os testes cobrem:
+- **Partição de Equivalência:** Entradas válidas vs inválidas para senha e título de chamado.
+- **Análise de Valor Limite (BVA):** Valores de fronteira ($5$, $6$, $7$ caracteres para senha; $4$, $5$, $6$ caracteres para título).
+
+---
+
+## 🔄 Versões Didáticas e Painel do Professor
+
+O sistema possui duas versões de build controladas em tempo real:
+
+- **Versão A (Build 1.0.0 — Inicial com Falhas):** Contém os defeitos pedagógicos para identificação pelos alunos durante a primeira etapa.
+- **Versão B (Build 1.1.0 — Corrigida + Regressão):** Corrige defeitos antigos e introduz efeitos colaterais para a prática de reteste e testes de regressão.
+
+### Como Controlar o Ambiente:
+1. **Pela Interface:** Use os botões no rodapé de qualquer página (`Alternar para Build B / Build A`, `⚙️ Painel do Professor` e `Restaurar Dados`).
+2. **Pelo Console do Navegador (F12):**
+   ```javascript
+   setVersion('B');           // Ativa a Versão B
+   setVersion('A');           // Retorna para a Versão A
+   resetTestData();          // Restaura o banco de dados original
+   abrirPainelProfessor();   // Abre o modal de controle docente
+   ```
+
+---
+
+## 🔑 Credenciais de Teste Pré-Configuradas
+
 - **Administrador:**
-  - Usuário: `usuario.teste@senai.br`
+  - Login: `usuario.teste@senai.br`
   - Senha: `SenhaValida123`
 - **Estudante:**
-  - Usuário: `aluno`
+  - Login: `aluno`
   - Senha: `123`
 
-## 🔄 Alternância entre VERSÃO A e VERSÃO B
+---
 
-O sistema possui um controle de versões pedagógicas:
-- **Versão A (v1.0.0 — Build A):** Versão inicial da aula contendo os 8 defeitos didáticos para serem identificados pelos alunos (incluindo o caso do professor `CT-PRIORIDADE-001`).
-- **Versão B (v1.1.0 — Build B):** Versão atualizada que corrige defeitos antigos e introduz efeitos colaterais controlados para a prática de reteste e testes de regressão.
+## 📁 Estrutura de Documentos
 
-A alternância pode ser feita:
-1. Pelo link no rodapé pedagógico de qualquer tela (**"Alternar para Build B / Build A"**).
-2. Pelo console do navegador via comando: `setVersion('B')` ou `setVersion('A')`.
-3. Para restaurar a base de dados original: clique em **"Restaurar Dados Padrão"** no rodapé ou execute `resetTestData()`.
-
-## ⚠️ Atenção Professor
-
-Consulte o arquivo **`GABARITO_PROFESSOR.md`** para a matriz completa de defeitos, fichas técnicas, roteiro da demonstração do caso `CT-PRIORIDADE-001`, casos de reteste e testes de regressão.
-
-> **Importante:** Mantenha o arquivo `GABARITO_PROFESSOR.md` restrito ao corpo docente. Deixe que os alunos descubram os comportamentos e inconsistências através de seus próprios casos de teste!
+- **`GABARITO_PROFESSOR.md`:** *(Confidencial)* Mapa pedagógico completo, fichas técnicas de bugs, roteiro do caso do professor e guia de regressão.
+- **`GUIA_DO_ALUNO.md`:** Guia prático com os passos para elaboração de casos de teste, execução e relatório de defeitos.
+- **`CONTEXTO_PROJETO_IA.md`:** Documento consolidado para continuidade do projeto por agentes de IA.
+- **`validadores.js` / `validadores.test.js`:** Módulo de regras puras e suite de testes com Vitest.

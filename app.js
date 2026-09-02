@@ -1,4 +1,4 @@
-// =======================================================
+﻿// =======================================================
 // ESTAÇÃO DE TESTES SENAI — SISTEMA DE CHAMADOS DE TI
 // =======================================================
 
@@ -13,7 +13,7 @@ function setAppVersion(version) {
     window.location.reload();
 }
 
-// Funções utilitárias acessíveis globalmente no console
+// Funções utilitárias acessíveis globalmente no console e na interface
 window.setVersion = setAppVersion;
 window.getAppVersion = getAppVersion;
 window.resetTestData = function () {
@@ -23,13 +23,13 @@ window.resetTestData = function () {
     window.location.reload();
 };
 
-// 2. Inicializador de Dados Mockados
+// 2. Inicializador de Dados Mockados (Cenário Inicial da Aula)
 function initData(force = false) {
     if (force || !localStorage.getItem('chamados')) {
         const mockChamados = [
             { id: 1, title: 'Monitor não liga', description: 'Monitor da sala 3 está sem energia', category: 'Hardware', priority: 'Alta', status: 'Aberto' },
             { id: 2, title: 'Sistema lento', description: 'O sistema de RH está travando hoje', category: 'Software', priority: 'Média', status: 'Em andamento' },
-            { id: 3, title: 'Teclado com defeito', description: 'Teclas falhando', category: 'Hardware', priority: 'Baixa', status: 'Encerrado' }
+            { id: 3, title: 'Teclado com defeito', description: 'Teclas falhando na bancada 04', category: 'Hardware', priority: 'Baixa', status: 'Encerrado' }
         ];
         localStorage.setItem('chamados', JSON.stringify(mockChamados));
     }
@@ -62,7 +62,7 @@ function saveUsuarios(usuarios) {
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
 
-// 4. Controle de Autenticação
+// 4. Controle de Autenticação (RF-001)
 function checkAuth() {
     const path = window.location.pathname;
     const isLogin = path.endsWith('index.html') || path === '/' || path.endsWith('/');
@@ -78,20 +78,80 @@ function logout() {
 
 checkAuth();
 
-// 5. Configuração do Rodapé Pedagógico (Alternador de Versão)
+// 5. Painel do Professor (Modal de Configuração e Rastreabilidade)
+window.abrirPainelProfessor = function() {
+    fecharPainelProfessor();
+    const version = getAppVersion();
+    const chamados = getChamados();
+    const usuarios = getUsuarios();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'painelProfessorModal';
+    overlay.className = 'modal-overlay';
+    overlay.onclick = (e) => {
+        if (e.target === overlay) fecharPainelProfessor();
+    };
+
+    overlay.innerHTML = `
+        <div class="modal-card">
+            <h3>
+                <span>🛠️ Painel do Professor — Estação de Testes</span>
+                <button class="modal-close-btn" onclick="fecharPainelProfessor()">&times;</button>
+            </h3>
+
+            <div class="modal-section">
+                <h4>Estado Atual do Ambiente</h4>
+                <p>Versão Ativa: <strong>${version === 'A' ? 'Versão A (v1.0.0 — Inicial com Falhas)' : 'Versão B (v1.1.0 — Corrigida + Regressão)'}</strong></p>
+                <p>Chamados no Banco Local: <strong>${chamados.length}</strong> | Usuários: <strong>${usuarios.length}</strong></p>
+                <div class="modal-btn-group">
+                    <button type="button" class="modal-action-btn" onclick="setVersion('A')">Ativar Versão A (Inicial)</button>
+                    <button type="button" class="modal-action-btn" onclick="setVersion('B')">Ativar Versão B (Reteste)</button>
+                    <button type="button" class="modal-action-btn danger" onclick="resetTestData()">Restaurar Dados Originais</button>
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <h4>Rastreabilidade de Requisitos Funcionais</h4>
+                <div>
+                    <span class="req-badge">RF-001: Autenticação (Login)</span>
+                    <span class="req-badge">RF-002: Cadastro de Usuários</span>
+                    <span class="req-badge">RF-003: Abertura de Chamados</span>
+                    <span class="req-badge">RF-004: Consulta e Status</span>
+                    <span class="req-badge">RF-005: Dashboard</span>
+                </div>
+            </div>
+
+            <div class="modal-section" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                <p style="font-size: 0.8rem; color: #666;">
+                    Dica: O gabarito completo com passos de reprodução, matriz de defeitos e testes de regressão está documentado em <code>GABARITO_PROFESSOR.md</code>.
+                </p>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+};
+
+window.fecharPainelProfessor = function() {
+    const modal = document.getElementById('painelProfessorModal');
+    if (modal) modal.remove();
+};
+
+// 6. Configuração do Rodapé Pedagógico (Alternador de Versão)
 function setupPedagogicalNotice() {
     const version = getAppVersion();
     const notices = document.querySelectorAll('.pedagogical-notice');
     notices.forEach(notice => {
         const buildInfo = version === 'A' ? 'v1.0.0 (Build A)' : 'v1.1.0 (Build B)';
         const targetVersion = version === 'A' ? 'B' : 'A';
-        const targetLabel = version === 'A' ? 'Build B (Versão Corrigida)' : 'Build A (Versão Inicial)';
+        const targetLabel = version === 'A' ? 'Build B (Reteste/Regressão)' : 'Build A (Versão Inicial)';
 
         notice.innerHTML = `
             <span>Estação de Testes SENAI:</span> 
             <strong>${buildInfo}</strong> — 
             <button type="button" class="btn-version-toggle" onclick="setVersion('${targetVersion}')">Alternar para ${targetLabel}</button> | 
-            <button type="button" class="btn-version-reset" onclick="resetTestData()">Restaurar Dados Padrão</button>
+            <button type="button" class="btn-version-toggle" onclick="abrirPainelProfessor()">⚙️ Painel do Professor</button> | 
+            <button type="button" class="btn-version-reset" onclick="resetTestData()">Restaurar Dados</button>
         `;
     });
 }
@@ -104,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPedagogicalNotice();
 
     // ---------------------------------------------------
-    // 1. TELA DE LOGIN (index.html)
+    // 1. TELA DE LOGIN (index.html) — RF-001
     // ---------------------------------------------------
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -128,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------------------------------------------------
-    // 2. DASHBOARD (dashboard.html)
+    // 2. DASHBOARD (dashboard.html) — RF-005
     // ---------------------------------------------------
     const dashboardStats = document.getElementById('dashboardStats');
     if (dashboardStats) {
@@ -168,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------------------------------------------------
-    // 3. NOVO CHAMADO (novo.html)
+    // 3. NOVO CHAMADO (novo.html) — RF-003
     // ---------------------------------------------------
     const formNovo = document.getElementById('formNovo');
     if (formNovo) {
@@ -183,10 +243,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const titulo = tituloInput ? tituloInput.value : '';
             const descricao = descricaoInput ? descricaoInput.value : '';
 
-            // DEFEITO 6 (DEF-006): Na Versão A, permite submissão de chamado com título/descrição vazios
+            // Regra de Validação de Campos (RF-003 / Partição de Equivalência e BVA)
+            // DEFEITO 6 (DEF-006): Na Versão A, permite submissão com campos em branco
             if (version === 'B') {
-                if (!titulo.trim() || !descricao.trim()) {
-                    alert('Por favor, preencha todos os campos obrigatórios (Título e Descrição).');
+                const tituloValido = (typeof Validadores !== 'undefined') 
+                    ? Validadores.validarTituloChamado(titulo) 
+                    : (titulo.trim().length >= 5);
+
+                if (!tituloValido || descricao.trim().length < 5) {
+                    alert('Por favor, preencha os campos obrigatórios. O Título deve conter no mínimo 5 caracteres.');
                     return;
                 }
             }
@@ -229,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------------------------------------------------
-    // 4. CONSULTA DE CHAMADOS (consulta.html)
+    // 4. CONSULTA DE CHAMADOS (consulta.html) — RF-004
     // ---------------------------------------------------
     const tableBody = document.getElementById('tableBody');
     if (tableBody) {
@@ -365,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------------------------------------------------
-    // 5. USUÁRIOS (usuarios.html)
+    // 5. USUÁRIOS (usuarios.html) — RF-002
     // ---------------------------------------------------
     const formUsuario = document.getElementById('formUsuario');
     if (formUsuario) {
@@ -402,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.style.display = 'none';
             successMsg.style.display = 'none';
 
-            // DEFEITO 3 (DEF-003): Validação de Senha Fraca
+            // DEFEITO 3 (DEF-003) & RF-002: Validação de Senha (BVA e Partição de Equivalência)
             if (version === 'A') {
                 // Na Versão A, aceita senha com apenas 1 caractere
                 if (senha.length === 0) {
@@ -412,7 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 // Na Versão B (CORRIGIDO): Exige tamanho mínimo de 6 caracteres
-                if (senha.length < 6) {
+                const senhaValida = (typeof Validadores !== 'undefined') 
+                    ? Validadores.validarSenha(senha) 
+                    : (senha.length >= 6);
+
+                if (!senhaValida) {
                     errorMsg.textContent = 'A senha deve conter no mínimo 6 caracteres.';
                     errorMsg.style.display = 'block';
                     return;
@@ -421,14 +490,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const usuarios = getUsuarios();
 
-            // DEFEITO 2 (DEF-002): E-mail Duplicado
-            let exists = null;
+            // DEFEITO 2 (DEF-002) & RF-002: E-mail Duplicado
+            let exists = false;
             if (version === 'A') {
                 // Na Versão A: Comparação sensível a maiúsculas/minúsculas (Case-sensitive)
-                exists = usuarios.find(u => u.email === email);
+                exists = (typeof Validadores !== 'undefined')
+                    ? Validadores.validarEmailDuplicado(email, usuarios, true)
+                    : usuarios.some(u => u.email === email);
             } else {
                 // Na Versão B (CORRIGIDO): Comparação insensível (Case-insensitive)
-                exists = usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());
+                exists = (typeof Validadores !== 'undefined')
+                    ? Validadores.validarEmailDuplicado(email, usuarios, false)
+                    : usuarios.some(u => u.email.toLowerCase() === email.toLowerCase());
             }
 
             if (exists) {

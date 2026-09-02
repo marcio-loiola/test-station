@@ -1,0 +1,17 @@
+﻿{
+  "name": "estacao-testes-senai",
+  "version": "1.1.0",
+  "description": "Estação Didática de Testes de Sistemas Web - SENAI",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "keywords": ["senai", "testes", "qa", "vitest", "caixa-preta", "reteste", "regressao"],
+  "author": "SENAI - Testes de Sistemas",
+  "license": "MIT",
+  "devDependencies": {
+    "vitest": "^1.6.0"
+  }
+}

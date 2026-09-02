@@ -1,89 +1,91 @@
 ﻿# Contexto do Projeto: Estação de Testes de Chamados de TI (SENAI)
 
-Este documento foi gerado para fornecer a qualquer agente de Inteligência Artificial ou desenvolvedor o contexto completo da arquitetura, objetivos pedagógicos, lógica de versionamento e catálogo de defeitos deste repositório.
+Este documento fornece a qualquer agente de Inteligência Artificial ou desenvolvedor o contexto completo da arquitetura, objetivos pedagógicos, lógica de versionamento, requisitos funcionais, catálogo de defeitos e suporte a testes automatizados com Vitest deste repositório.
 
 ---
 
 ## 1. Visão Geral e Propósito Pedagógico
 
-O projeto **Test Station (Estação de Testes)** é um sistema web simulado desenvolvido para aulas práticas de **Testes de Sistemas** no **SENAI**.
-Ele não é um sistema corporativo de produção, mas sim um **laboratório prático** para que estudantes atuem como Analistas de Qualidade (QA), exercitando todo o ciclo de testes:
+O projeto **Test Station (Estação de Testes)** é um sistema web simulado desenvolvido para a aula final de **Testes de Sistemas** no **SENAI**.
+Ele atua como um **laboratório prático investigativo** para que estudantes atuem como Analistas de Qualidade (QA), desenvolvendo a competência C8 e exercitando todo o ciclo de testes:
 
-$$\text{Elaboração de Casos de Teste} \longrightarrow \text{Execução Manual} \longrightarrow \text{Comparação (Esperado vs. Obtido)} \longrightarrow \text{Evidência} \longrightarrow \text{Relatório de Bugs} \longrightarrow \text{Reteste na Versão B} \longrightarrow \text{Testes de Regressão}$$
+$$\text{Requisito} \longrightarrow \text{Selecionar Teste} \longrightarrow \text{Executar} \longrightarrow \text{Comparar (Esperado vs. Obtido)} \longrightarrow \text{Evidência} \longrightarrow \text{Relatório de Bugs} \longrightarrow \text{Reteste na Versão B} \longrightarrow \text{Testes de Regressão}$$
 
 ---
 
-## 2. Arquitetura Técnica
+## 2. Requisitos Funcionais Mapeados
+
+- **`RF-001` — Autenticação (Login):** Validação de credenciais de acesso para usuários cadastrados.
+- **`RF-002` — Cadastro de Usuários:** Cadastro de novos usuários com e-mail único (case-insensitive) e validação de senha (mínimo de 6 caracteres - regra para BVA e Partição de Equivalência).
+- **`RF-003` — Abertura de Chamados:** Criação de chamados com título (mínimo de 5 caracteres - regra para BVA), categoria, prioridade (sempre preservada) e descrição.
+- **`RF-004` — Consulta e Edição de Chamados:** Listagem de chamados, busca por título (case-insensitive), filtro por status e atualização de status (sem recriação indevida ou perda de prioridade).
+- **`RF-005` — Dashboard:** Métricas e contadores precisos de chamados Abertos, Em Andamento e Encerrados.
+
+---
+
+## 3. Arquitetura Técnica
 
 - **Stack:** HTML5, CSS3 e JavaScript Vanilla (ES6+).
-- **Sem Backend / Sem Dependências:** Não utiliza Node.js no runtime, npm, frameworks (React/Vue) ou bancos de dados SQL/NoSQL.
-- **Persistência de Dados:** Memória do navegador via `localStorage`.
-  - Chaves utilizadas:
-    - `chamados`: Array de objetos de chamados (`id`, `title`, `description`, `category`, `priority`, `status`).
-    - `usuarios`: Array de objetos de usuários (`id`, `nome`, `email`, `perfil`, `senha`).
-    - `auth_token`: Token simples de autenticação (`token_valido`).
-    - `app_version`: Versão pedagógica ativa (`'A'` ou `'B'`).
-- **Navegação Multi-page:**
-  - `index.html`: Login e acesso ao minigame educativo.
-  - `dashboard.html`: Métricas e contagem de chamados por status.
-  - `novo.html`: Formulário para abertura de novos chamados.
-  - `consulta.html`: Tabela de listagem com busca por título, filtro por status e dropdown inline para alteração de status.
-  - `usuarios.html`: Formulário de cadastro e tabela de listagem de usuários.
-  - `minigame.html` / `minigame.js` / `minigame.css`: Jogo interativo em 4 fases sobre fundamentos de casos de teste e severidade.
-  - `app.js`: Toda a lógica de autenticação, persistência, controle de versões e injeção dos comportamentos pedagógicos.
-  - `style.css`: Estilização limpa, responsiva e alinhada à identidade visual do SENAI.
+- **Sem Backend / Sem Dependências de Runtime:** Não necessita de Node.js para rodar a aplicação web (todos os dados persistem localmente via `localStorage`).
+- **Testes Automatizados (Opcional para Demonstração Docente):**
+  - Módulo: `validadores.js` (funções puras desacopladas).
+  - Suite de Testes: `validadores.test.js` (executável via `npm test` com Vitest).
+  - Configuração: `package.json`.
+- **Persistência de Dados (`localStorage`):**
+  - `chamados`: Array de objetos de chamados (`id`, `title`, `description`, `category`, `priority`, `status`).
+  - `usuarios`: Array de objetos de usuários (`id`, `nome`, `email`, `perfil`, `senha`).
+  - `auth_token`: Token simples de autenticação (`token_valido`).
+  - `app_version`: Versão pedagógica ativa (`'A'` ou `'B'`).
+- **Navegação:**
+  - `index.html`: Login e link para o minigame.
+  - `dashboard.html`: Indicadores visuais.
+  - `novo.html`: Formulário de criação de chamado.
+  - `consulta.html`: Tabela de listagem com busca, filtros e atualização inline.
+  - `usuarios.html`: Cadastro e listagem de usuários.
+  - `minigame.html` / `minigame.js` / `minigame.css`: Jogo educativo sobre casos de teste.
+  - `validadores.js`: Regras puras para testes unitários.
+  - `app.js`: Lógica de interface, controle de versões e injeção de comportamentos pedagógicos.
+  - `style.css`: Estilização e componentes de modal.
 
 ---
 
-## 3. Mecanismo de Versões Pedagógicas (Versão A vs. Versão B)
+## 4. Mecanismo de Versões Didáticas e Painel do Professor
 
-O sistema possui duas versões de build controladas dinamicamente:
+- **VERSÃO A (v1.0.0 — Build Inicial):** Contém os 8 defeitos didáticos para identificação pelos alunos.
+- **VERSÃO B (v1.1.0 — Build Corrigida + Regressão):** Corrige defeitos antigos (`DEF-001`, `DEF-003`, `DEF-005`, `DEF-008`) e introduz 2 novos efeitos colaterais (`DEF-REG-001` e `DEF-REG-002`).
 
-### 3.1. VERSÃO A (v1.0.0 — Build Inicial)
-- Utilizada na primeira fase da aula prática.
-- Contém **8 defeitos pedagógicos** intencionais (incluindo o caso do professor `CT-PRIORIDADE-001`).
-
-### 3.2. VERSÃO B (v1.1.0 — Build Corrigida + Regressão)
-- Utilizada na segunda fase da aula (reteste e regressão).
-- **Corrige 4 defeitos antigos**:
-  - `DEF-001` (Hardware + Alta agora salva como Alta com sucesso).
-  - `DEF-003` (Senha passa a exigir no mínimo 6 caracteres).
-  - `DEF-005` (Filtro "Em andamento" agora lista os chamados corretos).
-  - `DEF-008` (Efeito Hidra removido ao encerrar chamados).
-- **Introduz 2 novos efeitos colaterais (Bugs de Regressão)**:
-  - `DEF-REG-001` (Ao alterar status para "Em andamento", a prioridade do chamado vira "Média").
-  - `DEF-REG-002` (A busca por texto ignora e sobrepõe o filtro de status selecionado).
-
-### 3.3. Alternância e Controle
-- **Pela Interface:** Link/botão no rodapé pedagógico (`.pedagogical-notice`) em todas as páginas: `Alternar para Build B / Build A` e `Restaurar Dados Padrão`.
-- **Pelo Console do Navegador (F12):**
+### Controle Docente:
+- **Pela Interface:** Botões no rodapé de todas as páginas e modal `⚙️ Painel do Professor` (`abrirPainelProfessor()`).
+- **Pelo Console:**
   ```javascript
-  setVersion('B');      // Alterna para Versão B
-  setVersion('A');      // Retorna para Versão A
-  getAppVersion();     // Retorna 'A' ou 'B'
-  resetTestData();     // Restaura dados mockados iniciais
+  setVersion('B');           // Ativa Versão B
+  setVersion('A');           // Retorna para Versão A
+  getAppVersion();          // Retorna 'A' ou 'B'
+  resetTestData();          // Restaura dados mockados iniciais
+  abrirPainelProfessor();   // Exibe o modal do professor
   ```
 
 ---
 
-## 4. Matriz Completa de Defeitos
+## 5. Mapa Pedagógico Final
 
-| ID | Módulo | Defeito | Versão A | Versão B | Efeito Colateral / Regressão | Causa no Código (`app.js`) |
+| Requisito | Funcionalidade | Tipo de Teste | Defeito Possível | Técnica de Caixa Preta | Reteste na Versão B | Regressão na Versão B |
 |---|---|---|---|---|---|---|
-| **DEF-001** | Novo Chamado | Categoria `Hardware` força prioridade `Baixa` (`CT-PRIORIDADE-001`) | **Ativo** | **Corrigido** | Não | `if (version === 'A' && categoria === 'Hardware') prioridade = 'Baixa';` |
-| **DEF-002** | Usuários | E-mail duplicado aceito por sensibilidade a maiúsculas | **Ativo** | **Ativo** | Não | `u.email === email` (Case-sensitive) |
-| **DEF-003** | Usuários | Aceita senha com apenas 1 caractere | **Ativo** | **Corrigido** | Não | Na Versão A só valida se `senha.length === 0`; na B exige `>= 6`. |
-| **DEF-004** | Consulta | Busca por título sensível a maiúsculas/minúsculas | **Ativo** | **Corrigido** | Sim (`DEF-REG-002`) | Na Versão A `c.title.includes(term)`; na B `toLowerCase()`. |
-| **DEF-005** | Consulta | Filtro de status "Em andamento" retorna vazio | **Ativo** | **Corrigido** | Sim (`DEF-REG-002`) | Na Versão A compara com `'andamento'`; na B com `'Em andamento'`. |
-| **DEF-006** | Novo Chamado | Permite submissão de chamado com campos em branco | **Ativo** | **Corrigido** | Não | Na Versão A não valida `!titulo.trim()`; na B bloqueia. |
-| **DEF-007** | Dashboard | Card "Abertos" desconsidera chamados com prioridade Baixa | **Ativo** | **Corrigido** | Não | Na Versão A: `if (st === 'aberto' && c.priority !== 'Baixa') abertos++;` |
-| **DEF-008** | Consulta | Efeito Hidra: ao encerrar chamado, cria duplicata em aberto | **Ativo** | **Corrigido** | Sim (`DEF-REG-001`) | Na Versão A injeta novo chamado com `'Reabertura automática: '`. |
-| **DEF-REG-001** | Edição Status | Ao mudar status para "Em andamento", prioridade vira "Média" | Inativo | **Ativo** | **Sim (Novo na B)** | Na Versão B: `if (newStatus === 'Em andamento') chamados[idx].priority = 'Média';` |
-| **DEF-REG-002** | Filtro / Busca | Busca por texto ignora e sobrepõe o filtro de status selecionado | Inativo | **Ativo** | **Sim (Novo na B)** | Na Versão B: `if (term && statusF) filtered = filtered.filter(c => c.title.toLowerCase().includes(term.toLowerCase()));` |
+| **RF-001** | Login | Sistema / Funcional | Credenciais inválidas aceitas ou erro genérico | Partição de Equivalência (Login válido vs inválido) | N/A (Estável) | Não |
+| **RF-002** | Cadastro de Usuários | Sistema / Funcional | E-mail duplicado aceito com maiúsculas (`DEF-002`) | Partição de Equivalência (E-mail novo vs existente) | Permanece aberto | Não |
+| **RF-002** | Cadastro de Usuários | Unitário / Sistema | Senha fraca com 1 caractere aceita (`DEF-003`) | **Análise de Valor Limite (BVA)** (5, 6, 7 chars) | **Sim (Aprovado)** | Não |
+| **RF-003** | Abertura de Chamado | Sistema / Funcional | Hardware força prioridade Baixa (`DEF-001` / CT-PRIORIDADE-001) | Partição de Equivalência (Hardware/Alta vs outras) | **Sim (Aprovado)** | Não |
+| **RF-003** | Abertura de Chamado | Unitário / Sistema | Permite título em branco ou < 5 chars (`DEF-006`) | **Análise de Valor Limite (BVA)** (4, 5, 6 chars no título) | **Sim (Aprovado)** | Não |
+| **RF-004** | Consulta de Chamados | Sistema / Funcional | Busca por título case-sensitive (`DEF-004`) | Partição de Equivalência (Termo minúsculo vs maiúsculo) | **Sim (Aprovado)** | **Sim (Efeito DEF-REG-002)** |
+| **RF-004** | Consulta de Chamados | Sistema / Funcional | Filtro "Em andamento" retorna lista vazia (`DEF-005`) | Partição de Equivalência (Status existente vs inexistente) | **Sim (Aprovado)** | **Sim (Efeito DEF-REG-002)** |
+| **RF-004** | Edição de Chamados | Integração / Sistema | Efeito Hidra ao encerrar chamado (`DEF-008`) | Teste de Transição de Estado (Aberto -> Encerrado) | **Sim (Aprovado)** | **Sim (Efeito DEF-REG-001)** |
+| **RF-004** | Edição de Status *(Regressão)* | Integração / Regressão | Alterar status para "Em andamento" reseta prioridade para Média (`DEF-REG-001`) | Teste de Regressão / Preservação de Atributos | N/A | **Sim (Novo Bug na B)** |
+| **RF-004** | Filtros Combinados *(Regressão)* | Sistema / Regressão | Busca por texto ignora e anula o filtro de status selecionado (`DEF-REG-002`) | Teste Combinatório / Regressão de Filtros | N/A | **Sim (Novo Bug na B)** |
+| **RF-005** | Dashboard | Integração / Sistema | Card "Abertos" ignora chamados de prioridade Baixa (`DEF-007`) | Teste de Consistência de Dados (Soma de Itens) | **Sim (Aprovado)** | Não |
 
 ---
 
-## 5. Roteiro do Caso de Demonstração do Professor
+## 6. Roteiro do Caso de Demonstração do Professor
 
 ### **CT-PRIORIDADE-001**
 1. **Menu:** Abrir Chamado (`novo.html`).
@@ -98,7 +100,7 @@ O sistema possui duas versões de build controladas dinamicamente:
 
 ---
 
-## 6. Credenciais de Teste (Caminho Feliz)
+## 7. Credenciais de Teste (Caminho Feliz)
 
 - **Administrador:**
   - Login: `usuario.teste@senai.br`
@@ -109,17 +111,8 @@ O sistema possui duas versões de build controladas dinamicamente:
 
 ---
 
-## 7. Arquivos de Documentação do Projeto
-
-- **`GABARITO_PROFESSOR.md`**: Gabarito confidencial contendo fichas detalhadas de defeitos, passos de reprodução, matriz comparativa de versões, casos que passam/falham, reteste e regressão.
-- **`GUIA_DO_ALUNO.md`**: Manual de instruções para os estudantes realizarem os testes sem receberem pistas dos bugs.
-- **`README.md`**: Visão geral do repositório, como executar localmente e dados de acesso.
-- **`CONTEXTO_PROJETO_IA.md`**: Este próprio documento com o histórico e instruções técnicas para continuidade por agentes de IA.
-
----
-
 ## 8. Diretrizes para Futuras IAs e Desenvolvedores
 
 1. **Integridade Pedagógica:** Nunca adicione textos na interface como "Aqui tem bug", "Erro intencional" ou comentários no HTML/CSS que entreguem as falhas. Os alunos devem descobrir o comportamento exclusivamente pelos casos de teste.
-2. **Simplicidade:** Mantenha a arquitetura em Vanilla JS e `localStorage`. Não introduza dependências de build ou frameworks que exijam `npm install` ou servidor de backend.
-3. **Sincronização:** Se alterar ou adicionar novos defeitos/comportamentos em `app.js`, atualize imediatamente a matriz em `GABARITO_PROFESSOR.md` e este documento `CONTEXTO_PROJETO_IA.md`.
+2. **Simplicidade:** Mantenha a arquitetura em Vanilla JS e `localStorage`. Não introduza dependências de build obrigatórias para execução da aplicação web.
+3. **Sincronização:** Se alterar ou adicionar novos defeitos/comportamentos em `app.js` ou `validadores.js`, atualize imediatamente a matriz em `GABARITO_PROFESSOR.md` e este documento `CONTEXTO_PROJETO_IA.md`.
